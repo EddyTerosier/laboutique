@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class RegisterController extends AbstractController
@@ -22,7 +23,7 @@ class RegisterController extends AbstractController
     }
 
     #[Route("/inscription", name: "app_register")]
-    public function index(Request $request): Response
+    public function index(Request $request, UserPasswordHasherInterface $hasher): Response
     {
         // Création d'un nouvel utilisateur
         $user = new User();
@@ -37,6 +38,10 @@ class RegisterController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // Récupération des données du formulaire
             $user = $form->getData();
+
+            $password = $hasher->hashPassword($user,$user->getPassword());
+
+            $user -> setPassword($password);
 
             // Persistance de l'utilisateur dans la base de données
             $this->entityManager->persist($user);
