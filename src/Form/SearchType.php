@@ -27,12 +27,12 @@ class SearchType extends AbstractType
                     "class" => "form-control-sm"
                 ]
             ])
-            ->add("categories", EntityType::class, [
+            ->add("categories", EntityType::class, [ // Permet de lié un input du formulaire en lui disant qu'on veut que ca represente une entité
                 "label" => false,
                 "required" => false,
-                "class" => Category::class,
+                "class" => Category::class, // Permet de dire avec quelle class on veut faire le lien de l'input
                 "multiple" => true,
-                "expanded" => true
+                "expanded" => true 
             ])
             ->add("submit", SubmitType::class, [
                 "label" => "Filtrer",

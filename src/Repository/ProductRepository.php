@@ -44,20 +44,26 @@ class ProductRepository extends ServiceEntityRepository
      * Requete qui me permet de récupérer les produits en fonction de la recherche de l'utilisateur
      * @return Product[]
      */
-    public function findWithSearch(Search $search)
+    public function findWithSearch(Search $search) // On créer la requete
     {
         $query = $this
-            ->createQueryBuilder("p")
-            ->select("c", "p")
-            ->join("p.category", "c");
+            ->createQueryBuilder("p") // méthode numero 1 pour créer une requete
+            ->select("c", "p") // on choisit "Catégory" ("c") et "Product" ("p")
+            ->join("p.category", "c"); // on fait la jointure entre nos produits et nos catégories
 
-        if (!empty($search->categories)) {
+        if (!empty($search->categories)) { // Si l'utilisateur renseigne des catégories a rechercher tu fais la suite
             $query = $query
-                ->andWhere("c.id IN (:categories)")
-                ->setParameter("categories", $search->categories);
+                ->andWhere("c.id IN (:categories)") // on lui passe un parametre ici :categories
+                ->setParameter("categories", $search->categories); // on lui dit a quoi correspond categories
         }
 
-        return $query->getQuery()->getResult();
+        if (!empty($search->string)) { // Si l'utilisateur renseigne du texte a rechercher tu fais la suite
+            $query = $query
+                ->andWhere("p.name LIKE :string")
+                ->setParameter("string", "%{$search->string}%"); // permet la recherche approximative du mot
+        }
+
+        return $query->getQuery()->getResult(); // on veut retourner les resultats
     }
 
 //    /**

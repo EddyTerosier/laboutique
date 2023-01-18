@@ -23,15 +23,15 @@ class ProductController extends AbstractController
     #[Route('/nos-produits', name: 'app_product')]
     public function index(Request $request): Response
     {
-        $products = $this->entityManager->getRepository(Product::class)->findAll();
+        $search = new Search(); // On initialise notre class
+        $form = $this->createForm(SearchType::class, $search); // qu'on passe la méthode createForm
 
-        $search = new Search();
-        $form = $this->createForm(SearchType::class, $search);
-
-        $form->handleRequest($request);
+        $form->handleRequest($request); // On écoute le formulaire
         
-        if ($form->isSubmitted() && $form->isValid()) {
-            $products = $this->entityManager->getRepository(Product::class)->findWithSearch($search);
+        if ($form->isSubmitted() && $form->isValid()) { // on demande si le formulaire est soumis et valide
+            $products = $this->entityManager->getRepository(Product::class)->findWithSearch($search); // on rentre dedans et on envoie une nouvelle fonction qu'on a créer
+        } else {
+            $products = $this->entityManager->getRepository(Product::class)->findAll();
         }
 
         return $this->render('product/index.html.twig', [
