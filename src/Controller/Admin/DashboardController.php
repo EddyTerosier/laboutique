@@ -19,11 +19,16 @@ class DashboardController extends AbstractDashboardController
     #[Route("/admin", name: "admin")]
     public function index(): Response
     {
-        $url = $this->adminUrlGenerator
-            ->setController(ProductCrudController::class)
-            ->generateUrl();
+        $routeBuilder = $this->container->get(AdminUrlGenerator::class);
+        $url = $routeBuilder->setController(ProductCrudController::class)->generateUrl();
 
         return $this->redirect($url);
+        
+        // $url = $this->AdminUrlGenerator
+        //     ->setController(ProductCrudController::class)
+        //     ->generateUrl();
+
+        // return $this->redirect($url);
 
         // Option 1. You can make your dashboard redirect to some common page of your backend
         //
