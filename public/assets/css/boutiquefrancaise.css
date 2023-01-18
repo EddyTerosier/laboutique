@@ -1,3 +1,7 @@
+body {
+    position: relative;
+}
+
 .navbar-item-custom,.navbar-item-custom a {
     color: white;
     text-decoration: none;
@@ -5,8 +9,43 @@
 
 .footer-custom {
     text-align: center;
-    position: fixed;
+    position: absolute;
     bottom: 0;
     width: 100%;
     padding-top: 20px;
+}
+
+.product-item h5 {
+    text-transform: uppercase;
+    font-size: 15px;
+    margin-bottom: 1px;
+}
+
+.product-item {
+    margin-top: 50px;
+}
+
+.product-item .product-description {
+    font-size: 14px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.product-item .product-price {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.product-container {
+    margin-bottom: 125px;
+}
+
+.product-page-price {
+    font-size: 19px;
+}
+.product-item {
+    transition: transform .2s; /* définit la durée de l'animation */
+}
+.product-item:hover{
+    transform: scale(1.1); /* agrandit l'élément de 150% */
 }
