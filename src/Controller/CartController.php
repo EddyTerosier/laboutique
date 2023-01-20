@@ -12,7 +12,7 @@ class CartController extends AbstractController
     #[Route('/mon-panier', name: 'app_cart')]
     public function index(Cart $cart): Response
     {
-
+        dd($cart->get());
         return $this->render('cart/index.html.twig');
     }
 
@@ -20,14 +20,13 @@ class CartController extends AbstractController
     public function add(Cart $cart, $id): Response
     {
         $cart->add($id);
-        return $this->redirectToRoute("cart");
+        return $this->redirectToRoute("app_cart");
     }
 
     #[Route('/cart/remove', name: 'remove_my_cart')]
     public function remove(Cart $cart): Response
     {
         $cart->remove();
-        $cart->flush();
         return $this->redirectToRoute("app_product");
     }
 }

@@ -13,20 +13,26 @@ class Cart
     }
     public function add($id)
     {
-        $this->session->getSession()->set("cart", [
-            [
-                "id" => $id,
-                "quantity" => 1
-            ]
-        ]);
+        $methodset = $this->session->getSession();
+        $cart = $this->session->$methodset->get("cart", []);
+
+        if (!empty($cart[$id])){
+            $cart[$id]++;
+        } else {
+            $cart[$id] = 1;
+        }
+
+        $methodset->set("cart", $cart);
     }
 
     public function get()
     {
-        return $this->session->getCurrentRequest()->get("cart");
+        $methodget = $this->session->getSession();
+        return $methodget->get("cart");
     }
     public function remove()
     {
-        
+        $methodremove = $this->session->getSession();
+        return $methodremove->remove("cart");
     }
 }
